@@ -1,0 +1,153 @@
+﻿<Window x:Class="CSharp_UI2.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CSharp_UI2"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="825" Width="1530"
+        Loaded="MainWindow_OnLoaded"
+        ResizeMode="NoResize">
+    <Window.Resources>
+        <Style TargetType="TextBox">
+            <Style.Triggers>
+                <Trigger Property="Validation.HasError" Value="true">
+                    <Setter Property="Foreground" Value="Red" />
+                    <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self}, Path=(Validation.Errors)/ErrorContent}"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <DataTemplate x:Key="key_mdTemplate">
+            <Border BorderThickness="1" BorderBrush="#FF00EDE3" CornerRadius="2" Width="223">
+                <StackPanel Orientation="Horizontal" >
+                    <TextBlock Text="{Binding }" Height ="30" Width="215" FontSize="16" TextAlignment="Center"/>
+                </StackPanel>
+            </Border>
+        </DataTemplate>
+        <DataTemplate x:Key="key_spTemplate">
+            <Border BorderThickness="1" BorderBrush="#FF00EDE3" CornerRadius="2" Width="238">
+                <StackPanel Orientation="Horizontal" >
+                    <TextBlock Text="{Binding }" Height ="30" Width="230" FontSize="16" TextAlignment="Center"/>
+                </StackPanel>
+            </Border>
+        </DataTemplate>
+    </Window.Resources>
+    <Window.CommandBindings>
+        <CommandBinding Command="{x:Static local:MainWindow.ApplyDataCommand}"
+                        Executed="ApplyDataCommandHandler"
+                        CanExecute="CanApplyDataCommandHandler" />
+        <CommandBinding Command="{x:Static local:MainWindow.SplineCommand}"
+                        Executed="SplineCommandHandler"
+                        CanExecute="CanSplineCommandHandler" />
+    </Window.CommandBindings>
+    <Grid>
+        <Grid Name="MData" HorizontalAlignment="Left" Height="315" Margin="0,0,0,0" VerticalAlignment="Top" Width="212">
+            <Border BorderThickness="1" BorderBrush="Black" Margin="0,9,0,0" Width="210" HorizontalAlignment ="Left" VerticalAlignment="Top" Background="#FFD4FFFA" Height="294">
+                <TextBlock TextWrapping="Wrap" Margin="0,0,0,0" VerticalAlignment="Top" Width="209" Height="30" FontSize="16" Background="#FFFFD6A9" FontWeight="Normal" FontStyle="Normal" TextAlignment="Center" Text="Данные исходной сетки"/>
+            </Border>
+            <Border BorderThickness="1" BorderBrush="Black" HorizontalAlignment="Left" Height="1" Margin="0,40,0,0" VerticalAlignment="Top" Width="209"/>
+            <ComboBox Name="FuncTypeBox" Width="209" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Margin="0,64,0,0" SelectedItem="{Binding ftype}"/>
+            <Label Content="Выберите тип функции" Margin="32,43,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" FontStyle="Italic" Height="26" Width="145"/>
+            <TextBox Name="NodeNumBox" Width="209" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,171,0,0" TextAlignment="Center" FontSize="16" Text="{Binding ndNum, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" >
+                <TextBox.ToolTip>
+                    <ToolTip>
+                        Integer type
+                    </ToolTip>
+                </TextBox.ToolTip>
+            </TextBox>
+            <Label Content="Введите число узлов сетки" Margin="32,150,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" FontStyle="Italic" Height="26" Width="163"/>
+            <TextBox Name="SegstartBox" Width="170" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="39,228,0,0" TextAlignment="Center" FontSize="16" Text="{Binding sgstart, ValidatesOnDataErrors=True}">
+                <TextBox.ToolTip>
+                    <ToolTip>
+                        Double type
+                    </ToolTip>
+                </TextBox.ToolTip>
+            </TextBox>
+            <TextBox Name="SegendBox" Width="170" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="39,265,0,0" TextAlignment="Center" FontSize="16" Text="{Binding sgend, ValidatesOnDataErrors=True}">
+                <TextBox.ToolTip>
+                    <ToolTip>
+                        Double type
+                    </ToolTip>
+                </TextBox.ToolTip>
+            </TextBox>
+            <Label Content="Выберите тип данных" Margin="32,96,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" FontStyle="Italic" Height="26" Width="145"/>
+            <ComboBox Name="NodeTypeBox" Width="209" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Margin="0,117,0,0" SelectedItem="{Binding ndtype}"/>
+            <Label Content="Введите границы отрезка" Margin="32,207,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" FontStyle="Italic" Height="26" Width="158"/>
+            <Label Content="от" Margin="10,230,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" FontStyle="Italic" Height="26" Width="27"/>
+            <Label Content="до" Margin="10,265,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" FontStyle="Italic" Height="26" Width="23"/>
+        </Grid>
+        <Button Content="Применить данные" Margin="0,325,0,0"  Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Width="209" Background="#FFFDB0E5" FontSize="16" FontStyle="Italic" Command="{x:Static local:MainWindow.ApplyDataCommand}"/>
+
+        <Grid Name="SpParam" HorizontalAlignment="Left" Height="315" Margin="0,390,0,0" VerticalAlignment="Top" Width="212">
+            <Border BorderThickness="1" BorderBrush="Black" Margin="0,10,0,0" Width="210" HorizontalAlignment ="Left" VerticalAlignment="Top" Background="#FFD4FFFA" Height="294">
+                <TextBlock TextWrapping="Wrap" Margin="0,0,0,0" VerticalAlignment="Top" Width="209" Height="30" FontSize="16" Background="#FFFFD6A9" FontWeight="Normal" FontStyle="Normal" TextAlignment="Center" Text="Параметры сплайна"/>
+            </Border>
+            <Border BorderThickness="1" BorderBrush="Black" HorizontalAlignment="Left" Height="1" Margin="0,42,0,0" VerticalAlignment="Top" Width="209"/>
+            <Label Content="Введите число узлов сплайна" Margin="17,45,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" FontStyle="Italic" Height="26" Width="175"/>
+            <TextBox Name="SplineNodeNumBox" Width="209" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,69,0,0" TextAlignment="Center" FontSize="16" Text="{Binding spndNum, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" >
+                <TextBox.ToolTip>
+                    <ToolTip>
+                        Integer type
+                    </ToolTip>
+                </TextBox.ToolTip>
+            </TextBox>
+            <Label Content="Значения производной на концах" Margin="10,107,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" FontStyle="Italic" Height="26" Width="194"/>
+            <TextBox Name="DerivSegstartBox" Width="150" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="59,132,0,0" TextAlignment="Center" FontSize="16" Text="{Binding derstart, ValidatesOnDataErrors=True}">
+                <TextBox.ToolTip>
+                    <ToolTip>
+                        Double type
+                    </ToolTip>
+                </TextBox.ToolTip>
+            </TextBox>
+            <TextBox Name="DerivSegendBox" Width="150" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="59,168,0,0" TextAlignment="Center" FontSize="16" Text="{Binding derend, ValidatesOnDataErrors=True}">
+                <TextBox.ToolTip>
+                    <ToolTip>
+                        Double type
+                    </ToolTip>
+                </TextBox.ToolTip>
+            </TextBox>
+            <Label Content="левый" Margin="10,134,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" FontStyle="Italic" Height="26" Width="52"/>
+            <Label Content="правый" Margin="8,170,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" FontStyle="Italic" Height="26" Width="52"/>
+            <Label Content="Границы отрезка интегрирования" Margin="5,207,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" FontStyle="Italic" Height="26" Width="203"/>
+            <TextBox Name="IntegSegstartBox" Width="170" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="39,230,0,0" TextAlignment="Center" FontSize="16" Text="{Binding intstart, ValidatesOnDataErrors=True}">
+                <TextBox.ToolTip>
+                    <ToolTip>
+                        Double type
+                    </ToolTip>
+                </TextBox.ToolTip>
+            </TextBox>
+            <TextBox Name="IntegSegendBox" Width="170" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="39,267,0,0" TextAlignment="Center" FontSize="16" Text="{Binding intend, ValidatesOnDataErrors=True}">
+                <TextBox.ToolTip>
+                    <ToolTip>
+                        Double type
+                    </ToolTip>
+                </TextBox.ToolTip>
+            </TextBox>
+            <Label Content="от" Margin="10,232,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" FontStyle="Italic" Height="26" Width="27"/>
+            <Label Content="до" Margin="10,267,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" FontStyle="Italic" Height="26" Width="23"/>
+        </Grid>
+        <Button Content="Построить сплайн" Margin="0,715,0,0"  Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Width="209" Background="#FFFDB0E5" FontSize="16" FontStyle="Italic" Command="{x:Static local:MainWindow.SplineCommand}"/>
+
+        <Grid Name="MDList" HorizontalAlignment="Left" Height="770" Margin="225,10,0,0" VerticalAlignment="Top" Width="250">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="32*"/>
+                <RowDefinition Height="738*"/>
+            </Grid.RowDefinitions>
+            <ListBox Name="MDListBox" ItemsSource="{Binding}" ItemTemplate="{StaticResource key_mdTemplate}" Grid.Row="1"  Margin="0,0,0,10" BorderBrush="#FF0D0D0F" ScrollViewer.HorizontalScrollBarVisibility="Hidden"/>
+            <Border BorderThickness="1" BorderBrush="Black" HorizontalAlignment="Center"  Height="32" VerticalAlignment="Center" Width="250" Background="#FFFFD6A9">
+                <Label Content="Measured Data" Margin="0,0,0,0" FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center" FontStyle="Italic" FontWeight="DemiBold"/>
+            </Border>
+        </Grid>
+
+        <Grid Name="SPList" HorizontalAlignment="Left" Height="770" Margin="490,10,0,0" VerticalAlignment="Top" Width="265">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="32*"/>
+                <RowDefinition Height="738*"/>
+            </Grid.RowDefinitions>
+            <ListBox Name="SPListBox" ItemsSource="{Binding}" ItemTemplate="{StaticResource key_spTemplate}" Grid.Row="1"  Margin="0,0,0,10" BorderBrush="#FF0D0D0F" ScrollViewer.HorizontalScrollBarVisibility="Hidden"/>
+            <Border BorderThickness="1" BorderBrush="Black" HorizontalAlignment="Center"  Height="32" VerticalAlignment="Center" Width="265" Background="#FFFFD6A9">
+                <Label Content="Spline Data" Margin="0,0,0,0" FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center" FontStyle="Italic" FontWeight="DemiBold"/>
+            </Border>
+        </Grid>
+    </Grid>
+</Window>
