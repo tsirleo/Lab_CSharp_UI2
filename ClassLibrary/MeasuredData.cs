@@ -75,7 +75,7 @@ namespace ClassLibrary
         {
             for (int i = 0; i < nodeNum; i++)
             {
-                measurVals[i] = 2 * nodes[i] + 0.5;
+                measurVals[i] = (1.0/50) * nodes[i] + 0.5;
             }
         }
 
@@ -83,7 +83,7 @@ namespace ClassLibrary
         {
             for (int i = 0; i < nodeNum; i++)
             {
-                measurVals[i] = (nodes[i] + 1) * (nodes[i] - 2) * (nodes[i] + 2);
+                measurVals[i] = 0.031 * (nodes[i] - 1) * (nodes[i] + 7) * (nodes[i] + 2);
             }
         }
 

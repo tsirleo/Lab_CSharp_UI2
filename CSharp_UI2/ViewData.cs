@@ -26,7 +26,7 @@ namespace CSharp_UI2
         public MeasuredData md { get; set; }
         public SplineParameters sp { get; set; }
         public SplinesData sd { get; set; }
-        public ChartData graphics;
+        public OxyPlotModel graphics;
         public ObservableCollection<string> mdList { get; set; } = new ObservableCollection<string>();
         public ObservableCollection<string> splnList { get; set; } = new ObservableCollection<string>();
 
