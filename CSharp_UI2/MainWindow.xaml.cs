@@ -23,6 +23,7 @@ namespace CSharp_UI2
     public partial class MainWindow : Window
     {
         public ViewData Vd = new ViewData();
+        public OxyPlotModel oxyPlotMod;
         public static RoutedCommand ApplyDataCommand = new RoutedCommand("ApplyData", typeof(CSharp_UI2.MainWindow));
         public static RoutedCommand SplineCommand = new RoutedCommand("Spline", typeof(CSharp_UI2.MainWindow));
 
@@ -47,6 +48,7 @@ namespace CSharp_UI2
             IntegSegendBox.DataContext = Vd;
             MDListBox.ItemsSource = Vd.mdList;
             SPListBox.ItemsSource = Vd.splnList;
+            OxyPlot.DataContext = oxyPlotMod;
         }
 
         private void CanApplyDataCommandHandler(object sender, CanExecuteRoutedEventArgs e)
@@ -70,6 +72,8 @@ namespace CSharp_UI2
         {
             Vd.mdList.Clear();
             Vd.ApplyMeasureData();
+            oxyPlotMod = new OxyPlotModel(Vd.md);
+            OxyPlot.DataContext = oxyPlotMod;
         }
 
         private void CanSplineCommandHandler(object sender, CanExecuteRoutedEventArgs e)
@@ -93,6 +97,8 @@ namespace CSharp_UI2
         {
             Vd.splnList.Clear();
             Vd.ApplySplineData();
+            oxyPlotMod = new OxyPlotModel(Vd.sd);
+            OxyPlot.DataContext = oxyPlotMod;
         }
     }
 }

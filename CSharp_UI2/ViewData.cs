@@ -13,12 +13,12 @@ namespace CSharp_UI2
 {
     public class ViewData: IDataErrorInfo
     {
-        public int ndNum { get; set; } = 5;
+        public int ndNum { get; set; } = 8;
         public double sgstart { get; set; } = 0.0;
         public double sgend { get; set; } = 1.0;
         public SPf ftype { get; set; }
         public Uniform ndtype { get; set; }
-        public int spndNum { get; set; } = 9;
+        public int spndNum { get; set; } = 100;
         public double derstart { get; set; } = 1.0;
         public double derend { get; set; } = 1.0;
         public double intstart { get; set; } = 0.0;
