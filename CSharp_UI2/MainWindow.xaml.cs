@@ -71,6 +71,7 @@ namespace CSharp_UI2
         private void ApplyDataCommandHandler(object sender, ExecutedRoutedEventArgs e)
         {
             Vd.mdList.Clear();
+            Vd.splnList.Clear();
             Vd.ApplyMeasureData();
             oxyPlotMod = new OxyPlotModel(Vd.md);
             OxyPlot.DataContext = oxyPlotMod;
